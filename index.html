@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html>
   <head>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
@@ -13,4 +14,25 @@
       <a-camera gps-camera rotation-reader></a-camera>
     </a-scene>
   </body>
+=======
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Campus AR Navigation</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-ar.js@1.8.2/aframe-ar.js"></script>
+  <script src="app.js"></script>
+  <style>
+    body { margin: 0; overflow: hidden; font-family: sans-serif; }
+  </style>
+</head>
+<body>
+  <a-scene
+    vr-mode-ui="enabled: false"
+    embedded
+    arjs="sourceType: webcam; debugUIEnabled: true;">
+    <a-camera gps-camera rotation-reader></a-camera>
+  </a-scene>
+</body>
+>>>>>>> 2702e53dfdc1d35ea66ba120ad6fd336eaffb007
 </html>
