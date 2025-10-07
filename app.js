@@ -1,10 +1,9 @@
-const MAPBOX_TOKEN = 'pk.eyJ1IjoianNlbnRoaWxrdW0iLCJhIjoiY21nZ3ZjeWg5MG5reDJqb3FqY3dsMWwyNCJ9.Eat-LbMG3vf52Pe40kBswQ'; // 🔑 Replace with your Mapbox token
+const MAPBOX_TOKEN = 'pk.eyJ1IjoianNlbnRoaWxrdW0iLCJhIjoiY21nZ3ZjeWg5MG5reDJqb3FqY3dsMWwyNCJ9.Eat-LbMG3vf52Pe40kBswQ'; // Replace with your Mapbox token
 
 function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 }
 
-// Load buildings from JSON
 async function loadBuildings() {
   const res = await fetch('buildings.json');
   const buildings = await res.json();
@@ -17,7 +16,6 @@ async function loadBuildings() {
   });
 }
 
-// Get user GPS
 function getUserLocation() {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(pos => {
@@ -26,7 +24,6 @@ function getUserLocation() {
   });
 }
 
-// Mapbox walking route
 async function getRoute(start, end) {
   const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&access_token=${MAPBOX_TOKEN}`;
   const res = await fetch(url);
@@ -34,32 +31,28 @@ async function getRoute(start, end) {
   return data.routes[0].geometry.coordinates;
 }
 
-// Place arrows along route
 function placeArrows(coords) {
   const scene = document.querySelector('a-scene');
   const modelPath = isIOS() ? 'assets/arrow.usdz' : 'assets/arrow.glb';
 
-  for (let i = 0; i < coords.length - 1; i++) {
-    const [lon1, lat1] = coords[i];
-    const [lon2, lat2] = coords[i + 1];
-    const bearing = getBearing(lat1, lon1, lat2, lon2);
+  coords.forEach(([lon, lat], index) => {
+    let next = coords[index + 1] || [lon, lat];
+    const bearing = getBearing(lat, lon, next[1], next[0]);
 
     const arrow = document.createElement('a-entity');
-    arrow.setAttribute('gps-entity-place', `latitude: ${lat1}; longitude: ${lon1}`);
+    arrow.setAttribute('gps-entity-place', `latitude: ${lat}; longitude: ${lon}`);
     arrow.setAttribute('gltf-model', `url(${modelPath})`);
     arrow.setAttribute('scale', '2 2 2');
     arrow.setAttribute('rotation', `0 ${bearing} 0`);
     arrow.setAttribute('crossorigin', 'anonymous');
 
-    // Debugging
-    arrow.addEventListener('model-error', e => console.error('Model failed to load', e));
+    arrow.addEventListener('model-error', e => console.error('Model load error', e));
     arrow.addEventListener('model-loaded', e => console.log('Model loaded', e));
 
     scene.appendChild(arrow);
-  }
+  });
 }
 
-// Calculate bearing between two points
 function getBearing(lat1, lon1, lat2, lon2) {
   const toRad = deg => deg * Math.PI / 180;
   const toDeg = rad => rad * 180 / Math.PI;
@@ -74,7 +67,6 @@ function getBearing(lat1, lon1, lat2, lon2) {
   return (toDeg(θ) + 360) % 360;
 }
 
-// Distance in meters
 function distance(lat1, lon1, lat2, lon2) {
   const R = 6371000;
   const toRad = deg => deg * Math.PI / 180;
@@ -86,7 +78,6 @@ function distance(lat1, lon1, lat2, lon2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-// Track arrival
 function trackArrival(destLat, destLon) {
   if (!navigator.geolocation) return;
   navigator.geolocation.watchPosition(pos => {
@@ -95,7 +86,6 @@ function trackArrival(destLat, destLon) {
   });
 }
 
-// MAIN
 window.onload = async () => {
   await loadBuildings();
 
@@ -105,9 +95,7 @@ window.onload = async () => {
 
     const [endLon, endLat] = value.split(',').map(Number);
     const start = await getUserLocation();
-    console.log("User start:", start);
     const coords = await getRoute(start, [endLon, endLat]);
-    console.log("Route coords:", coords);
     placeArrows(coords);
     trackArrival(endLat, endLon);
   });
