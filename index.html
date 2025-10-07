@@ -1,50 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Campus AR Navigation</title>
-
-  <!-- A-Frame + AR.js -->
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://unpkg.com/aframe-ar.js@1.8.2/aframe-ar.js"></script>
-
-  <!-- App logic -->
-  <script src="app.js"></script>
-
-  <link rel="stylesheet" href="style.css">
-  <style>
-    body { margin: 0; overflow: hidden; }
-    #menu {
-      position: fixed;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,0.9);
-      border-radius: 10px;
-      padding: 10px;
-      z-index: 999;
-      font-family: sans-serif;
-    }
-    select, button {
-      padding: 5px;
-      font-size: 16px;
-    }
-    button { margin-left: 10px; cursor: pointer; }
-  </style>
-</head>
-<body>
-  <div id="menu">
-    <select id="buildingSelect">
-      <option value="">Select Building</option>
-    </select>
-    <button id="startNav">Start Navigation</button>
-  </div>
-
-  <a-scene
-    vr-mode-ui="enabled: false"
-    embedded
-    arjs="sourceType: webcam; debugUIEnabled: true;">
-    <a-camera gps-camera rotation-reader></a-camera>
-  </a-scene>
-</body>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-ar.js@1.8.2/aframe-ar.js"></script>
+  </head>
+  <body>
+    <a-scene
+      embedded
+      vr-mode-ui="enabled: false"
+      arjs="sourceType: webcam; debugUIEnabled: true;">
+      <a-box position="0 0.5 -2" material="color: red"></a-box>
+      <a-camera gps-camera rotation-reader></a-camera>
+    </a-scene>
+  </body>
 </html>
