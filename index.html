@@ -3,32 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <title>Campus AR Navigation</title>
-
-  <!-- A-Frame + AR.js -->
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-ar.js@1.8.2/aframe-ar.js"></script>
-
-  <!-- App logic -->
   <script src="app.js"></script>
-
-  <link rel="stylesheet" href="style.css">
   <style>
-    body { margin: 0; overflow: hidden; }
+    body { margin: 0; overflow: hidden; font-family: sans-serif; }
     #menu {
-      position: fixed;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,0.9);
-      border-radius: 10px;
-      padding: 10px;
-      z-index: 999;
-      font-family: sans-serif;
+      position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
+      background: rgba(255,255,255,0.9); border-radius: 10px; padding: 10px; z-index: 999;
     }
-    select, button {
-      padding: 5px;
-      font-size: 16px;
-    }
+    select, button { padding: 5px; font-size: 16px; }
     button { margin-left: 10px; cursor: pointer; }
   </style>
 </head>
