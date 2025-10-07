@@ -8,22 +8,9 @@
   <script src="app.js"></script>
   <style>
     body { margin: 0; overflow: hidden; font-family: sans-serif; }
-    #menu {
-      position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
-      background: rgba(255,255,255,0.9); border-radius: 10px; padding: 10px; z-index: 999;
-    }
-    select, button { padding: 5px; font-size: 16px; }
-    button { margin-left: 10px; cursor: pointer; }
   </style>
 </head>
 <body>
-  <div id="menu">
-    <select id="buildingSelect">
-      <option value="">Select Building</option>
-    </select>
-    <button id="startNav">Start Navigation</button>
-  </div>
-
   <a-scene
     vr-mode-ui="enabled: false"
     embedded
